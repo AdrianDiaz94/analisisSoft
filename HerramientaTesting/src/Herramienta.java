@@ -49,6 +49,8 @@ public class Herramienta {
     }
 
     public int calcularCC(String path, String methodName) throws IOException {
+        System.out.println(path);
+        System.out.println(methodName);
         int cant = 0;
         String codigo = "";
         codigo = this.soloCondicionales(path, methodName);

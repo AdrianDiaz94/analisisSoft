@@ -1,13 +1,14 @@
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 public class Gestor {
 
-    public static String[] getMethodsNames(String path) throws IOException {
+    public static ArrayList<String> getMethodsNames(String path) throws IOException {
         Lector lector = new Lector();
-        String[] methodsNames = lector.getMethodsNames(path);
+        ArrayList<String> methodsNames = lector.getMethodsNames(path);
         return methodsNames;
     }
 

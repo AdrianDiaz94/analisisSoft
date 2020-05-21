@@ -5,28 +5,13 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Lector {
-
-    /*public Lector(String path) throws FileNotFoundException {
-
-        Scanner sc = new Scanner(new File(path));
-
-        String codigo = "";
-        String linea = "";
-        while (sc.hasNextLine()) {
-            linea = sc.nextLine();
-            eliminarComentario(linea);
-            if (!linea.isEmpty()) {
-                codigo = codigo + linea + "\n";
-            }
-        }
-        sc.close();
-        String[] llaveAbierta = codigo.split("/{");
-        System.out.println("asd");
-
-    }*/
 
     public void eliminarComentario(String string) {
         int indiceComentario = string.indexOf("//");
@@ -35,16 +20,33 @@ public class Lector {
         }
     }
 
-    public String[] getMethodsNames(String path) throws FileNotFoundException, IOException {
-        String methodsNames[] = {"getL1","getL2","getL3","tipoDeTriangulo","esTriangulo", "mensajeError"};
-        /*FileReader fileReader = new FileReader(path);
-        BufferedReader bufferedReader = new BufferedReader(fileReader);
+    public ArrayList<String> getMethodsNames(String path) throws FileNotFoundException, IOException {
+        ArrayList<String> reservedNames;
+        reservedNames = new ArrayList<String>(Arrays.asList("if", "while", "for", "do", "else","switch"));
 
-        String line;
-        while ((line = bufferedReader.readLine()) != null) {
-            
+        ArrayList<String> methodsNames = new ArrayList<String>();
+
+        String bigLine = "";
+        FileReader fileReader = new FileReader(path);
+        try (BufferedReader bufferedReader = new BufferedReader(fileReader)) {
+            String line;
+
+            while ((line = bufferedReader.readLine()) != null) {
+                line = line.replaceAll("\n", "");
+                bigLine = bigLine.concat(line);
+            }
+
+            String patternString = "[^\\)\\(\\{\\}\\t]+\\s([a-z][a-zA-Z0-9]*)\\s*\\(";
+            Pattern pattern = Pattern.compile(patternString);
+            Matcher matcher = pattern.matcher(bigLine);
+
+            while (matcher.find()) {
+                if (!reservedNames.contains(matcher.group(1))) {
+                    methodsNames.add(matcher.group(1));
+                }
+            }
         }
-        bufferedReader.close();*/
+
         return methodsNames;
 
     }

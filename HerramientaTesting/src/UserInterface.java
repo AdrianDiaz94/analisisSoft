@@ -1,6 +1,7 @@
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -276,7 +277,7 @@ public class UserInterface extends javax.swing.JFrame {
 
             selectedFileLabel.setText(path);
             try {
-                String[] methodsNames = Gestor.getMethodsNames(path);
+                ArrayList<String> methodsNames = Gestor.getMethodsNames(path);
                 for (String methodName : methodsNames) {
                     methodSelect.addItem(methodName);
                 }
@@ -293,6 +294,9 @@ public class UserInterface extends javax.swing.JFrame {
 
     private void evaluateButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_evaluateButtonMouseClicked
         try {
+            //---CLEAN ALL --------
+            ccResult.setText("");
+            
             Map results = Gestor.getResults(this.path, methodSelect.getSelectedItem());
             ccResult.setText(results.get("cc").toString());
                 
