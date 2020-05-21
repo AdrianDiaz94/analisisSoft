@@ -1,4 +1,5 @@
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,9 +16,15 @@ public class Gestor {
     public static Map<String, Object> getResults(String path,String methodName) throws IOException {
         Map<String, Object> resultadoEvaluacion = new HashMap();
         Herramienta herramienta= new Herramienta();
-        int cc = herramienta.calcularCC(path,methodName);
+        Lector l= new Lector();
+        l.grabarMetodoEnArchivo(methodName, path);
+        
+        
+        int cc = herramienta.calcularCC(methodName+".java");
         resultadoEvaluacion.put("cc", cc);
         //Lector lector = new Lector(codigo);
+        File  file= new File(methodName+".java");
+        file.delete();        
         return resultadoEvaluacion;
     }
 }

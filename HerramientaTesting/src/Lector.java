@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.Writer;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -50,4 +52,54 @@ public class Lector {
         return methodsNames;
 
     }
+    public void grabarMetodoEnArchivo(String nombreMetodo,String path) {
+    	
+    	String codigoMetodo=buscarCodigoMetodo(nombreMetodo,path);
+    	try {
+			PrintWriter salida= new PrintWriter(nombreMetodo+".java");
+			salida.print(codigoMetodo);
+			salida.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	
+    	
+    	
+    }
+
+	private String buscarCodigoMetodo(String nombreMetodo, String path) {
+		boolean empieza=false,termina=false;
+		int cantLlaves=0;
+		boolean primeraLLave=false;
+		String metodo="";
+		try {
+			Scanner sc= new Scanner( new File(path));
+			while(sc.hasNextLine() && !termina) {
+				String linea=sc.nextLine();
+				eliminarComentario(linea);
+				if(linea.contains(nombreMetodo)) {
+					empieza=true;
+				}
+				if(empieza) {
+					if(linea.contains("{")) {
+						cantLlaves++;
+						primeraLLave=true;
+					}
+					if(linea.contains("}"))
+						cantLlaves--;
+					metodo+=linea+'\n';
+					if(primeraLLave && cantLlaves==0) 
+						termina=true;					
+					
+						
+				}
+			}
+			sc.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return metodo;
+	} 
 }

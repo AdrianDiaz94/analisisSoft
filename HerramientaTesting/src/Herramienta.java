@@ -48,12 +48,12 @@ public class Herramienta {
         return cantOpLogicos;
     }
 
-    public int calcularCC(String path, String methodName) throws IOException {
+    public int calcularCC(String path) throws IOException {
         System.out.println(path);
-        System.out.println(methodName);
+        
         int cant = 0;
         String codigo = "";
-        codigo = this.soloCondicionales(path, methodName);
+        codigo = this.soloCondicionales(path);
         int cantOp = this.calcularOpLogicos(codigo);
         String[] lineasCodigo = codigo.split("\n");
         int cantCon = lineasCodigo.length;
@@ -62,7 +62,7 @@ public class Herramienta {
         return cant;
     }
 
-    private String soloCondicionales(String path, String methodName) throws IOException {
+    private String soloCondicionales(String path) throws IOException {
         // con este metodo se eliminaran todas las lineas que no empiecen con WHILE,IF , ElSE IF
         //o  SWITCH ( en caso me quedo con los case y el  default , ya que son las distintas opciones)
         FileReader fr = new FileReader(path);
@@ -70,7 +70,7 @@ public class Herramienta {
         String codigoReal = "";
         String linea;
         while ((linea = br.readLine()) != null) {
-            if (linea.contains(methodName)) {
+            
                 int indiceTab = linea.indexOf("\t");
                 int indiceBlanco = linea.indexOf(" ");
                 // elimino los \t y los espacios en blanco que esten al inicio de la linea
@@ -95,7 +95,7 @@ public class Herramienta {
                         || indiceDefault == 0) {
                     codigoReal = codigoReal + linea.substring(0) + "\n";
                 }
-            }
+            
         }
 
         fr.close();
