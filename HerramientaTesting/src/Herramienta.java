@@ -49,8 +49,6 @@ public class Herramienta {
     }
 
     public int calcularCC(String path) throws IOException {
-        System.out.println(path);
-        
         int cant = 0;
         String codigo = "";
         codigo = this.soloCondicionales(path);
@@ -70,32 +68,32 @@ public class Herramienta {
         String codigoReal = "";
         String linea;
         while ((linea = br.readLine()) != null) {
-            
-                int indiceTab = linea.indexOf("\t");
-                int indiceBlanco = linea.indexOf(" ");
-                // elimino los \t y los espacios en blanco que esten al inicio de la linea
-                while (indiceTab == 0 || indiceBlanco == 0) {
-                    linea = linea.substring(1);
-                    indiceTab = linea.indexOf("\t");
-                    indiceBlanco = linea.indexOf(" ");
 
-                }
-                int indiceComentario = linea.indexOf("//");
-                //elimino el comentario que tenga la linea
-                if (indiceComentario != -1) {
-                    linea = linea.substring(0, indiceComentario);
-                }
-                int indiceIf = linea.indexOf("if");
-                int indiceWhile = linea.indexOf("while");
-                int indiceElse = linea.indexOf("else");
-                int indiceCase = linea.indexOf("case");
-                int indiceDefault = linea.indexOf("default");
-                //si empieza con algun condicional copio la linea 
-                if (indiceIf == 0 || indiceWhile == 0 || (indiceElse == 0 && indiceIf != -1) || indiceCase == 0
-                        || indiceDefault == 0) {
-                    codigoReal = codigoReal + linea.substring(0) + "\n";
-                }
-            
+            int indiceTab = linea.indexOf("\t");
+            int indiceBlanco = linea.indexOf(" ");
+            // elimino los \t y los espacios en blanco que esten al inicio de la linea
+            while (indiceTab == 0 || indiceBlanco == 0) {
+                linea = linea.substring(1);
+                indiceTab = linea.indexOf("\t");
+                indiceBlanco = linea.indexOf(" ");
+
+            }
+            int indiceComentario = linea.indexOf("//");
+            //elimino el comentario que tenga la linea
+            if (indiceComentario != -1) {
+                linea = linea.substring(0, indiceComentario);
+            }
+            int indiceIf = linea.indexOf("if");
+            int indiceWhile = linea.indexOf("while");
+            int indiceElse = linea.indexOf("else");
+            int indiceCase = linea.indexOf("case");
+            int indiceDefault = linea.indexOf("default");
+            //si empieza con algun condicional copio la linea 
+            if (indiceIf == 0 || indiceWhile == 0 || (indiceElse == 0 && indiceIf != -1) || indiceCase == 0
+                    || indiceDefault == 0) {
+                codigoReal = codigoReal + linea.substring(0) + "\n";
+            }
+
         }
 
         fr.close();

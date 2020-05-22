@@ -24,7 +24,7 @@ public class Lector {
 
     public ArrayList<String> getMethodsNames(String path) throws FileNotFoundException, IOException {
         ArrayList<String> reservedNames;
-        reservedNames = new ArrayList<String>(Arrays.asList("if", "while", "for", "do", "else","switch"));
+        reservedNames = new ArrayList<String>(Arrays.asList("if", "while", "for", "do", "else", "switch"));
 
         ArrayList<String> methodsNames = new ArrayList<String>();
 
@@ -52,54 +52,54 @@ public class Lector {
         return methodsNames;
 
     }
-    public void grabarMetodoEnArchivo(String nombreMetodo,String path) {
-    	
-    	String codigoMetodo=buscarCodigoMetodo(nombreMetodo,path);
-    	try {
-			PrintWriter salida= new PrintWriter(nombreMetodo+".java");
-			salida.print(codigoMetodo);
-			salida.close();
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-    	
-    	
-    	
+
+    public void grabarMetodoEnArchivo(String nombreMetodo, String path) {
+
+        String codigoMetodo = buscarCodigoMetodo(nombreMetodo, path);
+        try {
+            PrintWriter salida = new PrintWriter(nombreMetodo + ".java");
+            salida.print(codigoMetodo);
+            salida.close();
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
     }
 
-	private String buscarCodigoMetodo(String nombreMetodo, String path) {
-		boolean empieza=false,termina=false;
-		int cantLlaves=0;
-		boolean primeraLLave=false;
-		String metodo="";
-		try {
-			Scanner sc= new Scanner( new File(path));
-			while(sc.hasNextLine() && !termina) {
-				String linea=sc.nextLine();
-				eliminarComentario(linea);
-				if(linea.contains(nombreMetodo)) {
-					empieza=true;
-				}
-				if(empieza) {
-					if(linea.contains("{")) {
-						cantLlaves++;
-						primeraLLave=true;
-					}
-					if(linea.contains("}"))
-						cantLlaves--;
-					metodo+=linea+'\n';
-					if(primeraLLave && cantLlaves==0) 
-						termina=true;					
-					
-						
-				}
-			}
-			sc.close();
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return metodo;
-	} 
+    private String buscarCodigoMetodo(String nombreMetodo, String path) {
+        boolean empieza = false, termina = false;
+        int cantLlaves = 0;
+        boolean primeraLLave = false;
+        String metodo = "";
+        try {
+            Scanner sc = new Scanner(new File(path));
+            while (sc.hasNextLine() && !termina) {
+                String linea = sc.nextLine();
+                eliminarComentario(linea);
+                if (linea.contains(nombreMetodo)) {
+                    empieza = true;
+                }
+                if (empieza) {
+                    if (linea.contains("{")) {
+                        cantLlaves++;
+                        primeraLLave = true;
+                    }
+                    if (linea.contains("}")) {
+                        cantLlaves--;
+                    }
+                    metodo += linea + '\n';
+                    if (primeraLLave && cantLlaves == 0) {
+                        termina = true;
+                    }
+
+                }
+            }
+            sc.close();
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return metodo;
+    }
 }

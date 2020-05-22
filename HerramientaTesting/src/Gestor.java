@@ -22,7 +22,6 @@ public class Gestor {
         
         int cc = herramienta.calcularCC(methodName+".java");
         resultadoEvaluacion.put("cc", cc);
-        //Lector lector = new Lector(codigo);
         File  file= new File(methodName+".java");
         file.delete();        
         return resultadoEvaluacion;
