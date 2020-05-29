@@ -304,7 +304,7 @@ public class UserInterface extends javax.swing.JFrame {
             	}else{
                 ccResult.setBackground(Color.red);
             	}
-            	comentariosText+="Complejidad Ciclómática: Se recomienda modularizas el código y así lograr una mejor mantenibilidad del mismo."+"\n";
+            	comentariosText+="Complejidad Ciclom\u00e1tica: Se recomienda modularizas el c\u00f3digo y as\u00ed lograr una mejor mantenibilidad del mismo."+"\n";
                 recomendaciones.setText(comentariosText);
             }
             //PorcComentarios= Se recomienda mas comentarios si es menor a 30 el porcentaje
