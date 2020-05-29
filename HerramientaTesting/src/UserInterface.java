@@ -295,6 +295,7 @@ public class UserInterface extends javax.swing.JFrame {
             int cc = (int) results.get("cc");
             
             //RECOMENDACIONES
+            //CC= Se Pinta el color de campo cc segun resultado y se da recomendaciones si es mayor que 10  
             if(cc <=10){
                 ccResult.setBackground(Color.green);
             }else{	
@@ -306,23 +307,36 @@ public class UserInterface extends javax.swing.JFrame {
             	comentariosText+="Complejidad Ciclómática: Se recomienda modularizas el código y así lograr una mejor mantenibilidad del mismo."+"\n";
                 recomendaciones.setText(comentariosText);
             }
+            //PorcComentarios= Se recomienda mas comentarios si es menor a 30 el porcentaje
             String porcComenta =  results.get("porcComentarios").toString();
             Locale spanish = new Locale("es", "ES");
             NumberFormat nf= NumberFormat.getInstance(spanish);
-            
             
             float porcComentario=0;
 			try {
 				porcComentario = nf.parse(porcComenta).floatValue();
 			} catch (ParseException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
             if(porcComentario<=29) {
             	comentariosText+="Porcentaje de comentarios: Se recomienda agregar mas comentarios para que el codigo sea mas entendible \n";
             	recomendaciones.setText(comentariosText);
             }
-         
+            
+            //Fan out= Se recomienda 
+            int fanO = (int) results.get("fanout");
+            if(fanO > 3) {
+            	comentariosText+="Fan-Out alto \n";
+        		recomendaciones.setText(comentariosText);
+            }
+          
+            //Fan in= Se recomienda 
+            int fanI = (int) results.get("fanin");
+            if(fanI < 1) {	
+        		comentariosText+="Fan-In bajo \n";
+    			recomendaciones.setText(comentariosText);
+            }
+            
             ccResult.setText(Integer.toString(cc));
             lineasTotales.setText(results.get("totalLines").toString());
             comentarios.setText(results.get("comentarios").toString());
