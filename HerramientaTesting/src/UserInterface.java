@@ -4,13 +4,17 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.io.File;
 import java.io.IOException;
+import java.text.NumberFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import java.util.Map;
 import java.util.Set;
+
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -24,6 +28,7 @@ import java.util.Set;
 public class UserInterface extends javax.swing.JFrame {
 
     private String path;
+    
 
     public UserInterface() {
         initComponents();
@@ -301,12 +306,23 @@ public class UserInterface extends javax.swing.JFrame {
             	comentariosText+="Complejidad Ciclómática: Se recomienda modularizas el código y así lograr una mejor mantenibilidad del mismo."+"\n";
                 recomendaciones.setText(comentariosText);
             }
-            float porcComentario =  Float.parseFloat(results.get("porcComentarios").toString());
+            String porcComenta =  results.get("porcComentarios").toString();
+            Locale spanish = new Locale("es", "ES");
+            NumberFormat nf= NumberFormat.getInstance(spanish);
+            
+            
+            float porcComentario=0;
+			try {
+				porcComentario = nf.parse(porcComenta).floatValue();
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
             if(porcComentario<=29) {
             	comentariosText+="Porcentaje de comentarios: Se recomienda agregar mas comentarios para que el codigo sea mas entendible \n";
             	recomendaciones.setText(comentariosText);
             }
-            
+         
             ccResult.setText(Integer.toString(cc));
             lineasTotales.setText(results.get("totalLines").toString());
             comentarios.setText(results.get("comentarios").toString());
