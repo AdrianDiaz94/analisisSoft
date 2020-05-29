@@ -333,8 +333,8 @@ public class UserInterface extends javax.swing.JFrame {
             //Fan in= Se recomienda 
             int fanI = (int) results.get("fanin");
             if(fanI > 3) {	
-        		comentariosText+="Fan-In alto: Se recomienda utilizar un metodo de cobertura exahustiva con el metodo de McCabe(Prueba del Camino Basico)"
-        				+ "\npara comprobar que no haya errores ya que podrian afectar a muchos metodos\n";
+        		comentariosText+="Fan-In alto: Se recomienda utilizar un metodo de cobertura exahustiva con el metodo de McCabe(Prueba del Camino Basico)\n"
+        				+ "para comprobar que no haya errores ya que podrian afectar a muchos metodos\n";
     			recomendaciones.setText(comentariosText);
             }
             
