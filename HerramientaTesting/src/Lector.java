@@ -38,7 +38,7 @@ public class Lector {
                 bigLine = bigLine.concat(line);
             }
 
-            String patternString = "[^\\)\\(\\{\\}\\t]+\\s([a-z][a-zA-Z0-9]*)\\s*\\(";
+            String patternString = "[^\\)\\(\\{\\}\\t]+\\s([a-z][a-zA-Z0-9]*)\\s*\\(\\s*\\)\\s\\{";
             Pattern pattern = Pattern.compile(patternString);
             Matcher matcher = pattern.matcher(bigLine);
 
@@ -72,12 +72,16 @@ public class Lector {
         int cantLlaves = 0;
         boolean primeraLLave = false;
         String metodo = "";
+        String patternString = "[^\\)\\(\\{\\}\\t]+\\s(" + nombreMetodo + ")\\s*\\(\\s*\\)\\s\\{";
+        Pattern pattern = Pattern.compile(patternString);
+
         try {
             Scanner sc = new Scanner(new File(path));
             while (sc.hasNextLine() && !termina) {
                 String linea = sc.nextLine();
                 eliminarComentario(linea);
-                if (linea.contains(nombreMetodo)) {
+                Matcher matcher = pattern.matcher(linea);
+                if (matcher.find()) {
                     empieza = true;
                 }
                 if (empieza) {

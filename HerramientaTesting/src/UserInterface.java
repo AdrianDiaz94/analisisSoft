@@ -1,4 +1,5 @@
 
+import java.awt.Color;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.io.File;
@@ -42,17 +43,17 @@ public class UserInterface extends javax.swing.JFrame {
         selectedFileLabel = new java.awt.Label();
         methodSelect = new java.awt.Choice();
         label1 = new java.awt.Label();
-        jTextField13 = new javax.swing.JTextField();
-        jTextField14 = new javax.swing.JTextField();
-        jTextField15 = new javax.swing.JTextField();
-        jTextField16 = new javax.swing.JTextField();
-        jTextField17 = new javax.swing.JTextField();
-        jTextField19 = new javax.swing.JTextField();
+        codigo = new javax.swing.JTextField();
+        porcComent = new javax.swing.JTextField();
+        blanco = new javax.swing.JTextField();
+        comentarios = new javax.swing.JTextField();
+        lineasTotales = new javax.swing.JTextField();
+        fanin = new javax.swing.JTextField();
         ccResult = new javax.swing.JTextField();
-        jTextField21 = new javax.swing.JTextField();
-        jTextField22 = new javax.swing.JTextField();
-        jTextField23 = new javax.swing.JTextField();
-        jTextField24 = new javax.swing.JTextField();
+        fanout = new javax.swing.JTextField();
+        longitud = new javax.swing.JTextField();
+        velocidad = new javax.swing.JTextField();
+        esfuerzo = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -66,13 +67,18 @@ public class UserInterface extends javax.swing.JFrame {
         jLabel13 = new javax.swing.JLabel();
         evaluateButton = new java.awt.Button();
         jLabel1 = new javax.swing.JLabel();
+        jSeparator1 = new javax.swing.JSeparator();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        recomendaciones = new javax.swing.JTextArea();
+        jLabel12 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("TestingTool");
+        setBackground(new java.awt.Color(203, 204, 207));
         setIconImage(getIconImage());
-        setMaximumSize(new java.awt.Dimension(720, 270));
-        setMinimumSize(new java.awt.Dimension(720, 270));
-        setPreferredSize(new java.awt.Dimension(720, 270));
+        setMaximumSize(new java.awt.Dimension(720, 450));
+        setMinimumSize(new java.awt.Dimension(720, 450));
+        setPreferredSize(new java.awt.Dimension(720, 450));
         getContentPane().setLayout(null);
 
         chooseDyrectory.setLabel("Explorar directorio");
@@ -90,6 +96,7 @@ public class UserInterface extends javax.swing.JFrame {
         chooseDyrectory.setBounds(20, 20, 115, 24);
 
         selectedFileLabel.setBackground(new java.awt.Color(203, 204, 207));
+        selectedFileLabel.setName(""); // NOI18N
         selectedFileLabel.setText("[Ruta de archivo seleccionado]");
         getContentPane().add(selectedFileLabel);
         selectedFileLabel.setBounds(160, 20, 505, 24);
@@ -101,57 +108,62 @@ public class UserInterface extends javax.swing.JFrame {
         getContentPane().add(label1);
         label1.setBounds(20, 50, 173, 20);
 
-        jTextField13.setEditable(false);
-        getContentPane().add(jTextField13);
-        jTextField13.setBounds(170, 140, 44, 20);
+        codigo.setEditable(false);
+        getContentPane().add(codigo);
+        codigo.setBounds(160, 140, 70, 30);
 
-        jTextField14.setEditable(false);
-        getContentPane().add(jTextField14);
-        jTextField14.setBounds(380, 110, 44, 20);
+        porcComent.setEditable(false);
+        getContentPane().add(porcComent);
+        porcComent.setBounds(370, 100, 70, 30);
 
-        jTextField15.setEditable(false);
-        getContentPane().add(jTextField15);
-        jTextField15.setBounds(170, 200, 44, 20);
+        blanco.setEditable(false);
+        getContentPane().add(blanco);
+        blanco.setBounds(160, 220, 70, 30);
 
-        jTextField16.setEditable(false);
-        getContentPane().add(jTextField16);
-        jTextField16.setBounds(170, 170, 44, 20);
+        comentarios.setEditable(false);
+        getContentPane().add(comentarios);
+        comentarios.setBounds(160, 180, 70, 30);
 
-        jTextField17.setEditable(false);
-        getContentPane().add(jTextField17);
-        jTextField17.setBounds(170, 110, 44, 20);
+        lineasTotales.setEditable(false);
+        getContentPane().add(lineasTotales);
+        lineasTotales.setBounds(160, 100, 70, 30);
 
-        jTextField19.setEditable(false);
-        getContentPane().add(jTextField19);
-        jTextField19.setBounds(380, 170, 44, 20);
+        fanin.setEditable(false);
+        getContentPane().add(fanin);
+        fanin.setBounds(370, 180, 70, 30);
 
         ccResult.setEditable(false);
+        ccResult.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ccResultActionPerformed(evt);
+            }
+        });
         getContentPane().add(ccResult);
-        ccResult.setBounds(380, 140, 44, 20);
+        ccResult.setBounds(370, 140, 70, 30);
 
-        jTextField21.setEditable(false);
-        getContentPane().add(jTextField21);
-        jTextField21.setBounds(380, 200, 44, 20);
+        fanout.setEditable(false);
+        getContentPane().add(fanout);
+        fanout.setBounds(370, 220, 70, 30);
 
-        jTextField22.setEditable(false);
-        getContentPane().add(jTextField22);
-        jTextField22.setBounds(620, 110, 44, 20);
+        longitud.setEditable(false);
+        getContentPane().add(longitud);
+        longitud.setBounds(620, 100, 70, 30);
 
-        jTextField23.setEditable(false);
-        getContentPane().add(jTextField23);
-        jTextField23.setBounds(620, 140, 44, 20);
+        velocidad.setEditable(false);
+        getContentPane().add(velocidad);
+        velocidad.setBounds(620, 140, 70, 30);
 
-        jTextField24.setEditable(false);
-        getContentPane().add(jTextField24);
-        jTextField24.setBounds(620, 170, 44, 20);
+        esfuerzo.setEditable(false);
+        getContentPane().add(esfuerzo);
+        esfuerzo.setBounds(620, 180, 70, 30);
 
         jLabel2.setText("Líneas comentadas:");
         getContentPane().add(jLabel2);
-        jLabel2.setBounds(40, 170, 120, 20);
+        jLabel2.setBounds(40, 180, 120, 20);
 
         jLabel3.setText("Líneas totales:");
         getContentPane().add(jLabel3);
-        jLabel3.setBounds(40, 110, 120, 20);
+        jLabel3.setBounds(40, 100, 120, 20);
 
         jLabel4.setText("Líneas de código:");
         getContentPane().add(jLabel4);
@@ -159,11 +171,11 @@ public class UserInterface extends javax.swing.JFrame {
 
         jLabel5.setText("Líneas en blanco:");
         getContentPane().add(jLabel5);
-        jLabel5.setBounds(40, 200, 120, 20);
+        jLabel5.setBounds(40, 220, 120, 20);
 
         jLabel6.setText("% comentarios:");
         getContentPane().add(jLabel6);
-        jLabel6.setBounds(250, 110, 118, 20);
+        jLabel6.setBounds(250, 100, 118, 20);
 
         jLabel7.setText("Comp. Clicomática:");
         getContentPane().add(jLabel7);
@@ -171,23 +183,23 @@ public class UserInterface extends javax.swing.JFrame {
 
         jLabel8.setText("Fan in:");
         getContentPane().add(jLabel8);
-        jLabel8.setBounds(250, 170, 118, 20);
+        jLabel8.setBounds(250, 180, 118, 20);
 
         jLabel9.setText("Fan out:");
         getContentPane().add(jLabel9);
-        jLabel9.setBounds(250, 200, 118, 20);
+        jLabel9.setBounds(250, 220, 118, 20);
 
         jLabel10.setText("Halstead - Velocidad: ");
         getContentPane().add(jLabel10);
-        jLabel10.setBounds(470, 140, 118, 20);
+        jLabel10.setBounds(470, 140, 140, 20);
 
         jLabel11.setText("Líneas - Esfuerzo:");
         getContentPane().add(jLabel11);
-        jLabel11.setBounds(470, 170, 118, 20);
+        jLabel11.setBounds(470, 180, 118, 20);
 
         jLabel13.setText("Halstead - Longitud: ");
         getContentPane().add(jLabel13);
-        jLabel13.setBounds(470, 110, 118, 20);
+        jLabel13.setBounds(470, 100, 118, 20);
 
         evaluateButton.setEnabled(false);
         evaluateButton.setLabel("Evaluar método");
@@ -206,6 +218,23 @@ public class UserInterface extends javax.swing.JFrame {
         jLabel1.setPreferredSize(new java.awt.Dimension(720, 270));
         getContentPane().add(jLabel1);
         jLabel1.setBounds(0, -10, 710, 290);
+        getContentPane().add(jSeparator1);
+        jSeparator1.setBounds(10, 282, 690, 0);
+
+        jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+        jScrollPane1.setEnabled(false);
+
+        recomendaciones.setColumns(20);
+        recomendaciones.setRows(5);
+        jScrollPane1.setViewportView(recomendaciones);
+
+        getContentPane().add(jScrollPane1);
+        jScrollPane1.setBounds(10, 300, 680, 70);
+
+        jLabel12.setText("Recomendaciones: ");
+        getContentPane().add(jLabel12);
+        jLabel12.setBounds(10, 280, 130, 14);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -252,14 +281,41 @@ public class UserInterface extends javax.swing.JFrame {
         try {
             //---CLEAN ALL --------
             ccResult.setText("");
-
+            lineasTotales.setText("");
+            comentarios.setText("");
+            codigo.setText("");
+            
             Map results = Gestor.getResults(this.path, methodSelect.getSelectedItem());
-            ccResult.setText(results.get("cc").toString());
-
+            int cc = (int) results.get("cc");
+            
+            if(cc <=10){
+                ccResult.setBackground(Color.yellow);
+            }else{
+                ccResult.setBackground(Color.red);
+                recomendaciones.setText("Complejidad Ciclómática: Se recomienda modularizas el código y así lograr una mejor mantenibilidad del mismo.");
+            }
+            
+            ccResult.setText(Integer.toString(cc));
+            lineasTotales.setText(results.get("totalLines").toString());
+            comentarios.setText(results.get("comentarios").toString());
+            codigo.setText(results.get("codigo").toString());
+            blanco.setText(results.get("blancos").toString());
+            porcComent.setText(results.get("porcComentarios").toString());
+            longitud.setText(results.get("longitud").toString());
+            velocidad.setText(results.get("velocidad").toString());
+            esfuerzo.setText(results.get("esfuerzo").toString());
+            fanin.setText(results.get("fanin").toString());
+            fanout.setText(results.get("fanout").toString());
+           
+            
         } catch (IOException ex) {
             Logger.getLogger(UserInterface.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_evaluateButtonMouseClicked
+
+    private void ccResultActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ccResultActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ccResultActionPerformed
 
     /**
      * @param args the command line arguments
@@ -297,12 +353,19 @@ public class UserInterface extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField blanco;
     private javax.swing.JTextField ccResult;
     private java.awt.Button chooseDyrectory;
+    private javax.swing.JTextField codigo;
+    private javax.swing.JTextField comentarios;
+    private javax.swing.JTextField esfuerzo;
     private java.awt.Button evaluateButton;
+    private javax.swing.JTextField fanin;
+    private javax.swing.JTextField fanout;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -312,20 +375,17 @@ public class UserInterface extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JTextField jTextField13;
-    private javax.swing.JTextField jTextField14;
-    private javax.swing.JTextField jTextField15;
-    private javax.swing.JTextField jTextField16;
-    private javax.swing.JTextField jTextField17;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTextField jTextField18;
-    private javax.swing.JTextField jTextField19;
-    private javax.swing.JTextField jTextField21;
-    private javax.swing.JTextField jTextField22;
-    private javax.swing.JTextField jTextField23;
-    private javax.swing.JTextField jTextField24;
     private java.awt.Label label1;
+    private javax.swing.JTextField lineasTotales;
+    private javax.swing.JTextField longitud;
     private java.awt.Choice methodSelect;
+    private javax.swing.JTextField porcComent;
+    private javax.swing.JTextArea recomendaciones;
     private java.awt.Label selectedFileLabel;
+    private javax.swing.JTextField velocidad;
     // End of variables declaration//GEN-END:variables
 
 }

@@ -1,11 +1,23 @@
 
+import com.sun.xml.internal.ws.util.StringUtils;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Herramienta {
+
+    private ArrayList<String> operadores = new ArrayList<String>(Arrays.asList("||", ";", "(", "+", "-", "&&", ">", "<", "<=", ">=", "==", "*=", "=", "+=", "-=", "++", "%", "{", "--", "/=", "%=", "^", "!"));
+    private ArrayList<String> funciones = new ArrayList<String>(Arrays.asList("for", "while", "if", "else"));
+    private ArrayList<String> reservadas = new ArrayList<String>(Arrays.asList("boolean", ")", "int", "String", "float", "public", "private", "}", "return", "true", "false"));
 
     private int calcularOpLogicos(String codigo) {
         // con esto metodo cuento cuantos AND y OR hay
@@ -58,6 +70,219 @@ public class Herramienta {
 
         cant = cantCon + cantOp;
         return cant;
+    }
+
+    public Map<String, Object> getHalstead(String path, ArrayList<String> methodsNames) throws FileNotFoundException, IOException {
+
+        Map<String, Integer> metOperadores = new HashMap<String, Integer>();
+        Map<String, Integer> metOperandos = new HashMap<String, Integer>();
+        Map<String, Object> resultados = new HashMap<String, Object>();
+
+        FileReader fr = new FileReader(path);
+        BufferedReader br = new BufferedReader(fr);
+        String linea;
+
+        while ((linea = br.readLine()) != null) {
+
+            if (linea.contains("/*")) {
+                while (linea != null && !linea.contains("*/")) {
+                    linea = br.readLine();
+                }
+                linea = br.readLine();
+            }
+
+            if (linea != null && !linea.contains("//")) {
+                for (String operador : this.operadores) {
+                    if (linea.contains(operador)) {
+                        int cantidad = countStringInString(operador, linea);
+                        if (metOperadores.containsKey(operador)) {
+                            metOperadores.put(operador, metOperadores.get(operador) + cantidad);
+                        } else {
+                            metOperadores.put(operador, countStringInString(operador, linea));
+                        }
+
+                        operador = Pattern.quote(operador);
+                        linea = linea.replaceAll(operador, " ");
+                    }
+                }
+
+                for (String funcion : this.funciones) {
+                    if (linea.contains(funcion)) {
+                        if (metOperadores.containsKey(funcion)) {
+                            metOperadores.put(funcion, metOperadores.get(funcion) + 1);
+                        } else {
+                            metOperadores.put(funcion, 1);
+                        }
+                        funcion = Pattern.quote(funcion);
+                        linea = linea.replaceAll(funcion, " ");
+                    }
+                }
+
+                for (String reservada : this.reservadas) {
+                    if (linea.contains(reservada)) {
+                        reservada = Pattern.quote(reservada);
+                        linea = linea.replaceAll(reservada, " ");
+                    }
+                }
+                String tabulador = Pattern.quote("\t");
+                linea = linea.replaceAll(tabulador, " ");
+
+                String[] split = linea.split(" ");
+
+                for (int i = 0; i < split.length; i++) {
+                    if (!split[i].isEmpty() && !methodsNames.contains(split[i])) {
+                        String coso = split[i];
+                        if (metOperandos.containsKey(coso)) {
+                            metOperandos.put(coso, metOperandos.get(coso) + 1);
+                        } else {
+                            metOperandos.put(coso, 1);
+                        }
+                    }
+                }
+            }
+        }
+        fr.close();
+        int fanOut = getFanOut(path, methodsNames);
+        metOperadores.put("(", metOperadores.get("(") - 1 -fanOut);
+
+        if (metOperadores.containsKey("for")) {
+            int cantidad = metOperadores.get("for");
+            metOperadores.put("(", metOperadores.get("(") - cantidad);
+            metOperadores.put(";", metOperadores.get(";") - cantidad * 2);
+        }
+
+        metOperadores.keySet().forEach((key) -> {
+            System.out.println(key + " - " + metOperadores.get(key)); // hasta acá obtengo el N1
+        });
+
+        metOperandos.keySet().forEach((key) -> {
+            System.out.println(key + " - " + metOperandos.get(key)); // hasta acá obtengo el N1
+        });
+
+        int nUno = 0;
+        int nDos = 0;
+
+        for (String key1 : metOperadores.keySet()) {
+            nUno = metOperadores.get(key1) + nUno;
+        }
+
+        for (String key2 : metOperandos.keySet()) {
+            nDos = metOperandos.get(key2) + nDos;
+        }
+        //System.out.println(nUno+" - ");
+        Integer longitud = nUno + nDos;
+        float volumen = (float) (longitud * (Math.log(metOperandos.size() + metOperadores.size()) / Math.log(2)));
+        float esfuerzo = volumen / longitud;
+
+        resultados.put("longitud", longitud);
+        resultados.put("volumen", volumen);
+        resultados.put("esfuerzo", esfuerzo);
+
+        return resultados;
+    }
+
+    private static boolean isNumeric(final String str) {
+
+        if (str == null || str.length() == 0) {
+            return false;
+        }
+
+        for (char c : str.toCharArray()) {
+            if (!Character.isDigit(c)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public int getFanOut(String path, ArrayList<String> methodsNames) throws FileNotFoundException, IOException {
+        int cantidad = -1;
+        FileReader fr = new FileReader(path);
+        BufferedReader br = new BufferedReader(fr);
+        String linea;
+
+        while ((linea = br.readLine()) != null) {
+            for (int i = 0; i < methodsNames.size(); i++) {
+                if (linea.contains(methodsNames.get(i))) {
+                    cantidad++;
+                }
+            }
+        }
+        fr.close();
+
+        return cantidad;
+    }
+
+    public int getFanIn(String path, String methodName) throws FileNotFoundException, IOException {
+        int cantidad = -1;
+        FileReader fr = new FileReader(path);
+        BufferedReader br = new BufferedReader(fr);
+        String linea;
+
+        while ((linea = br.readLine()) != null) {
+            if (linea.contains(methodName)) {
+                cantidad++;
+            }
+        }
+        fr.close();
+        return cantidad;
+    }
+
+    private static int countStringInString(String search, String text) {
+        search = Pattern.quote(search);
+
+        Pattern pattern = Pattern.compile(search);
+        Matcher matcher = pattern.matcher(text);
+
+        int stringOccurrences = 0;
+
+        while (matcher.find()) {
+            stringOccurrences++;
+        }
+        return stringOccurrences;
+    }
+
+    public int[] getTotalLines(String path) throws FileNotFoundException, IOException {
+        int[] result = new int[4];
+        int totalLines = 0;
+        int comentarios = 0;
+        int vacio = 0;
+        FileReader fr = new FileReader(path);
+        BufferedReader br = new BufferedReader(fr);
+        String linea;
+        while ((linea = br.readLine()) != null) {
+            String tabulador = Pattern.quote("\t");
+            linea = linea.replaceAll(tabulador, "");
+            totalLines++;
+            if (linea.contains("//")) {
+                comentarios++;
+            } else if (linea.contains("/*")) {
+                comentarios++;
+                while ((linea = br.readLine()) != null && !linea.contains("*/")) {
+                    if (linea.isEmpty()) {
+                        vacio++;
+                    } else {
+                        comentarios++;
+                    }
+
+                    totalLines++;
+                }
+                comentarios++;
+                totalLines++;
+            }
+            if (linea.isEmpty()) {
+                vacio++;
+            }
+        }
+        fr.close();
+        totalLines = totalLines - 2;
+
+        result[0] = totalLines;//lineas totales
+        result[1] = comentarios;//comentarios
+        result[2] = (totalLines - comentarios - vacio);//codigo
+        result[3] = vacio;//vacios
+
+        return result;
     }
 
     private String soloCondicionales(String path) throws IOException {
