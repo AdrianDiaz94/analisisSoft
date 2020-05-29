@@ -57,7 +57,7 @@ public class UserInterface extends javax.swing.JFrame {
         ccResult = new javax.swing.JTextField();
         fanout = new javax.swing.JTextField();
         longitud = new javax.swing.JTextField();
-        volumen = new javax.swing.JTextField();
+        velocidad = new javax.swing.JTextField();
         esfuerzo = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -154,9 +154,9 @@ public class UserInterface extends javax.swing.JFrame {
         getContentPane().add(longitud);
         longitud.setBounds(620, 100, 70, 30);
 
-        volumen.setEditable(false);
-        getContentPane().add(volumen);
-        volumen.setBounds(620, 140, 70, 30);
+        velocidad.setEditable(false);
+        getContentPane().add(velocidad);
+        velocidad.setBounds(620, 140, 70, 30);
 
         esfuerzo.setEditable(false);
         getContentPane().add(esfuerzo);
@@ -345,7 +345,7 @@ public class UserInterface extends javax.swing.JFrame {
             blanco.setText(results.get("blancos").toString());
             porcComent.setText(results.get("porcComentarios").toString());
             longitud.setText(results.get("longitud").toString());
-            volumen.setText(results.get("volumen").toString());
+            velocidad.setText(results.get("velocidad").toString());
             esfuerzo.setText(results.get("esfuerzo").toString());
             fanin.setText(results.get("fanin").toString());
             fanout.setText(results.get("fanout").toString());
@@ -428,7 +428,7 @@ public class UserInterface extends javax.swing.JFrame {
     private javax.swing.JTextField porcComent;
     private javax.swing.JTextArea recomendaciones;
     private java.awt.Label selectedFileLabel;
-    private javax.swing.JTextField volumen;
+    private javax.swing.JTextField velocidad;
     // End of variables declaration//GEN-END:variables
 
 }
