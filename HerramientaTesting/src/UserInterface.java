@@ -319,20 +319,24 @@ public class UserInterface extends javax.swing.JFrame {
 				e.printStackTrace();
 			}
             if(porcComentario<=29) {
+            	porcComent.setBackground(Color.RED);
             	comentariosText+="Porcentaje de comentarios: Se recomienda agregar mas comentarios para que el codigo sea mas entendible \n";
             	recomendaciones.setText(comentariosText);
+            }else {
+            	porcComent.setBackground(Color.green);
             }
             
             //Fan out= Se recomienda 
             /*int fanO = (int) results.get("fanout");
-            if(fanO > 3) {
+            if(fanO < 3) {
             	comentariosText+="Fan-Out alto \n";
         		recomendaciones.setText(comentariosText);
             }*/
           
             //Fan in= Se recomienda 
             int fanI = (int) results.get("fanin");
-            if(fanI > 3) {	
+            if(fanI > 5) {
+            	fanin.setBackground(Color.RED);
         		comentariosText+="Fan-In alto: Se recomienda utilizar un metodo de cobertura exahustiva como el metodo de McCabe(Prueba del Camino Basico)\n"
         				+ "para comprobar que no haya errores ya que podrian afectar a muchos metodos\n";
     			recomendaciones.setText(comentariosText);
