@@ -109,7 +109,7 @@ public class UserInterface extends javax.swing.JFrame {
         methodSelect.setBounds(210, 50, 197, 20);
 
         label1.setBackground(new java.awt.Color(203, 204, 207));
-        label1.setText("Selecione el método a evaluar:");
+        label1.setText("Selecione el m\u00e9todo a evaluar:");
         getContentPane().add(label1);
         label1.setBounds(20, 50, 173, 20);
 
@@ -162,19 +162,19 @@ public class UserInterface extends javax.swing.JFrame {
         getContentPane().add(esfuerzo);
         esfuerzo.setBounds(620, 180, 70, 30);
 
-        jLabel2.setText("Líneas comentadas:");
+        jLabel2.setText("L\u00edneas comentadas:");
         getContentPane().add(jLabel2);
         jLabel2.setBounds(40, 180, 120, 20);
 
-        jLabel3.setText("Líneas totales:");
+        jLabel3.setText("L\u00edneas totales:");
         getContentPane().add(jLabel3);
         jLabel3.setBounds(40, 100, 120, 20);
 
-        jLabel4.setText("Líneas de código:");
+        jLabel4.setText("L\u00edneas de c\u00f3digo:");
         getContentPane().add(jLabel4);
         jLabel4.setBounds(40, 140, 120, 20);
 
-        jLabel5.setText("Líneas en blanco:");
+        jLabel5.setText("L\u00edneas en blanco:");
         getContentPane().add(jLabel5);
         jLabel5.setBounds(40, 220, 120, 20);
 
@@ -182,7 +182,7 @@ public class UserInterface extends javax.swing.JFrame {
         getContentPane().add(jLabel6);
         jLabel6.setBounds(250, 100, 118, 20);
 
-        jLabel7.setText("Comp. Clicomática:");
+        jLabel7.setText("Comp. Clicom\u00e1tica:");
         getContentPane().add(jLabel7);
         jLabel7.setBounds(250, 140, 118, 20);
 
@@ -198,7 +198,7 @@ public class UserInterface extends javax.swing.JFrame {
         getContentPane().add(jLabel10);
         jLabel10.setBounds(470, 140, 140, 20);
 
-        jLabel11.setText("Líneas - Esfuerzo:");
+        jLabel11.setText("L\u00edneas - Esfuerzo:");
         getContentPane().add(jLabel11);
         jLabel11.setBounds(470, 180, 118, 20);
 
@@ -207,7 +207,7 @@ public class UserInterface extends javax.swing.JFrame {
         jLabel13.setBounds(470, 100, 118, 20);
 
         evaluateButton.setEnabled(false);
-        evaluateButton.setLabel("Evaluar método");
+        evaluateButton.setLabel("Evaluar m\u00e9todo");
         evaluateButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 evaluateButtonMouseClicked(evt);
