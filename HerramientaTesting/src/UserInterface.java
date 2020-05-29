@@ -324,18 +324,21 @@ public class UserInterface extends javax.swing.JFrame {
             }
             
             //Fan out= Se recomienda 
-            int fanO = (int) results.get("fanout");
+            /*int fanO = (int) results.get("fanout");
             if(fanO > 3) {
             	comentariosText+="Fan-Out alto \n";
         		recomendaciones.setText(comentariosText);
-            }
+            }*/
           
             //Fan in= Se recomienda 
             int fanI = (int) results.get("fanin");
-            if(fanI < 1) {	
-        		comentariosText+="Fan-In bajo \n";
+            if(fanI > 3) {	
+        		comentariosText+="Fan-In alto: Se recomienda utilizar un metodo de cobertura exahustiva con el metodo de McCabe(Prueba del Camino Basico)\n";
     			recomendaciones.setText(comentariosText);
             }
+            
+            //Longitud
+            int longit = (int) results.get("longitud");
             
             ccResult.setText(Integer.toString(cc));
             lineasTotales.setText(results.get("totalLines").toString());
