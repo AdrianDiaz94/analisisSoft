@@ -284,15 +284,27 @@ public class UserInterface extends javax.swing.JFrame {
             lineasTotales.setText("");
             comentarios.setText("");
             codigo.setText("");
+            String comentariosText=("");
             
             Map results = Gestor.getResults(this.path, methodSelect.getSelectedItem());
             int cc = (int) results.get("cc");
             
+            //RECOMENDACIONES
             if(cc <=10){
-                ccResult.setBackground(Color.yellow);
-            }else{
+                ccResult.setBackground(Color.green);
+            }else{	
+            	if(cc>10 && cc<=20) {
+            		ccResult.setBackground(Color.yellow);
+            	}else{
                 ccResult.setBackground(Color.red);
-                recomendaciones.setText("Complejidad Ciclómática: Se recomienda modularizas el código y así lograr una mejor mantenibilidad del mismo.");
+            	}
+            	comentariosText+="Complejidad Ciclómática: Se recomienda modularizas el código y así lograr una mejor mantenibilidad del mismo."+"\n";
+                recomendaciones.setText(comentariosText);
+            }
+            float porcComentario =  Float.parseFloat(results.get("porcComentarios").toString());
+            if(porcComentario<=29) {
+            	comentariosText+="Porcentaje de comentarios: Se recomienda agregar mas comentarios para que el codigo sea mas entendible \n";
+            	recomendaciones.setText(comentariosText);
             }
             
             ccResult.setText(Integer.toString(cc));
