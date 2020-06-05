@@ -12,7 +12,7 @@ public class menu {
 		String línea = new String("");
 		try {
 			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-			línea = br.readLine();
+			línea = br.readLine();////leo linea ingresada
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -29,7 +29,7 @@ public class menu {
 		String línea = new String("");
 		try {
 			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-			línea = br.readLine();
+			línea = br.readLine();//leo linea ingresada
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -52,12 +52,12 @@ public class menu {
 			menu.ps("   .............................................." + "\n");
 			menu.ps("   ....Elija la opcion deseada: ");
 			// ps("\n");
-			op1 = menu.LeerEntero();
+			op1 = menu.LeerEntero();//leo la opcion elegida
 			if (op1 < 1 || op1 > 3) {
 				ps("Debe digitar una opcion del menu" + "\n");
 				}
-		} while (op1 > 3 && op1 < 1);
-		return op1;
+		} while (op1 > 3 && op1 < 1);//si es una opcion valida, salgo sino vuelve a elegirla
+		return op1;//retorno la opcion valida elegida
 	}
 	
 	
@@ -74,13 +74,13 @@ public class menu {
 			ps("   ..............................................." + "\n");
 			ps("   ....Elija la opcion deseada: ");
 
-			op2 = LeerEntero();
+			op2 = LeerEntero();//leo la opcion puesta
 
 			if (op2 < 1 || op2 > 4) {
 				ps("Debe digitar una opcion del menu" + "\n");
 			}
-		} while (op2 < 1 || op2 > 4);
-		return op2;
+		} while (op2 < 1 || op2 > 4);//si es una opcion valida, salgo sino vuelve a elegirla
+		return op2;//retorno la opcion valida elegida
 	}
 	
 	
@@ -97,12 +97,12 @@ public class menu {
 			ps("   :-: 3. Anterior                             :-:" + "\n");
 			ps("   ..............................................." + "\n");
 			ps("   ....Elija la opcion deseada: ");
-			op2 = LeerEntero();
+			op2 = LeerEntero();//leo la opcion elegida
 			if (op2 < 1 || op2 > 3) {
 				ps("Seleccione una de las opciones del menu" + "\n");
 			}
-		} while (op2 < 1 || op2 > 3);
-		return op2;
+		} while (op2 < 1 || op2 > 3);//si es valida la opcion salgo sino sigo
+		return op2;//retorno la opcion valida elegida
 	}
 	
 	
