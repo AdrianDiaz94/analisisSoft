@@ -313,8 +313,8 @@ public class Herramienta {
             int indiceElse = linea.indexOf("else");
             int indiceCase = linea.indexOf("case");
             int indiceDefault = linea.indexOf("default");
-            //si empieza con algun condicional copio la linea 
-            if (indiceIf == 0 || indiceWhile == 0 || (indiceElse == 0 && indiceIf != -1) || indiceCase == 0
+            //si empiezsa con algun condicional copio la linea 
+            if (indiceIf !=-1 || indiceWhile !=-1 || (indiceElse !=-1 && indiceIf != -1) || indiceCase == 0
                     || indiceDefault == 0) {
                 codigoReal = codigoReal + linea.substring(0) + "\n";
             }
