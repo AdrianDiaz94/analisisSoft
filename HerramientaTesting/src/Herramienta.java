@@ -1,5 +1,5 @@
 
-import com.sun.xml.internal.ws.util.StringUtils;
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -15,9 +15,9 @@ import java.util.regex.Pattern;
 
 public class Herramienta {
 
-    private ArrayList<String> operadores = new ArrayList<String>(Arrays.asList("||", ";", "(", "+", "-", "&&", ">", "<", "<=", ">=", "==", "*=", "=", "+=", "-=", "++", "%", "{", "--", "/=", "%=", "^", "!"));
-    private ArrayList<String> funciones = new ArrayList<String>(Arrays.asList("for", "while", "if", "else"));
-    private ArrayList<String> reservadas = new ArrayList<String>(Arrays.asList("boolean", ")", "int", "String", "float", "public", "private", "}", "return", "true", "false"));
+    private ArrayList<String> operadores = new ArrayList<String>(Arrays.asList("||", ";", "(", "+", "&&", ">", "<", "<=", ">=", "==", "*=", "=", "+=", "-=", "++", "%", "{", "--", "/=", "%=", "^", "!"));
+    private ArrayList<String> funciones = new ArrayList<String>(Arrays.asList("for", "while","do", "if", "else"));
+    private ArrayList<String> reservadas = new ArrayList<String>(Arrays.asList("boolean", ")", "int","void" ,"String", "float", "public", "private", "}", "return", "true", "false"));
 
     private int calcularOpLogicos(String codigo) {
         // con esto metodo cuento cuantos AND y OR hay
@@ -150,14 +150,14 @@ public class Herramienta {
             metOperadores.put("(", metOperadores.get("(") - cantidad);
             metOperadores.put(";", metOperadores.get(";") - cantidad * 2);
         }
-
+        /*
         metOperadores.keySet().forEach((key) -> {
             System.out.println(key + " - " + metOperadores.get(key)); // hasta acá obtengo el N1
         });
-
+        System.out.println("-----------------------------------------------------");
         metOperandos.keySet().forEach((key) -> {
             System.out.println(key + " - " + metOperandos.get(key)); // hasta acá obtengo el N1
-        });
+        });*/
 
         int nUno = 0;
         int nDos = 0;
@@ -172,7 +172,7 @@ public class Herramienta {
         //System.out.println(nUno+" - ");
         Integer longitud = nUno + nDos;
         float volumen = (float) (longitud * (Math.log(metOperandos.size() + metOperadores.size()) / Math.log(2)));
-        float esfuerzo = volumen / longitud;
+        float esfuerzo = (float) (volumen / 0.89);
 
         resultados.put("longitud", longitud);
         resultados.put("volumen", volumen);
@@ -247,6 +247,8 @@ public class Herramienta {
         int totalLines = 0;
         int comentarios = 0;
         int vacio = 0;
+        int codigo = 0;
+        
         FileReader fr = new FileReader(path);
         BufferedReader br = new BufferedReader(fr);
         String linea;
@@ -255,6 +257,12 @@ public class Herramienta {
             linea = linea.replaceAll(tabulador, "");
             totalLines++;
             if (linea.contains("//")) {
+                String[] separador = linea.split("//");
+                System.out.println(separador.length);
+                
+                if(separador.length > 1)
+                    codigo++;
+                
                 comentarios++;
             } else if (linea.contains("/*")) {
                 comentarios++;
@@ -272,14 +280,16 @@ public class Herramienta {
             }
             if (linea.isEmpty()) {
                 vacio++;
+            }else if(!linea.contains("//")){
+                codigo++;
             }
         }
         fr.close();
-        totalLines = totalLines - 2;
+        totalLines = totalLines - 2; // -2 por apertura y cierre
 
         result[0] = totalLines;//lineas totales
         result[1] = comentarios;//comentarios
-        result[2] = (totalLines - comentarios - vacio);//codigo
+        result[2] = codigo-2;//codigo -2 por apertura y cierre
         result[3] = vacio;//vacios
 
         return result;

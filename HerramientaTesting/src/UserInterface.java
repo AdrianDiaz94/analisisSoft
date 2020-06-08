@@ -257,6 +257,7 @@ public class UserInterface extends javax.swing.JFrame {
 
             selectedFileLabel.setText(path);
             try {
+                methodSelect.removeAll();
                 ArrayList<String> methodsNames = Gestor.getMethodsNames(path);
                 for (String methodName : methodsNames) {
                     methodSelect.addItem(methodName);
@@ -304,7 +305,7 @@ public class UserInterface extends javax.swing.JFrame {
             	}else{
                 ccResult.setBackground(Color.red);
             	}
-            	comentariosText+="Complejidad Ciclom\u00e1tica: Se recomienda modularizas el c\u00f3digo y as\u00ed lograr una mejor mantenibilidad del mismo."+"\n";
+            	comentariosText+="Complejidad Ciclomática: Se recomienda modularizas el código para lograr una mejor mantenibilidad del mismo."+"\n";
                 recomendaciones.setText(comentariosText);
             }
             //PorcComentarios= Se recomienda mas comentarios si es menor a 30 el porcentaje
@@ -341,16 +342,16 @@ public class UserInterface extends javax.swing.JFrame {
     			recomendaciones.setText(comentariosText);
             }
             
-            ccResult.setText(Integer.toString(cc));
+            ccResult.setText(results.get("cc").toString());
             lineasTotales.setText(results.get("totalLines").toString());
             comentarios.setText(results.get("comentarios").toString());
             codigo.setText(results.get("codigo").toString());
             blanco.setText(results.get("blancos").toString());
-            porcComent.setText(results.get("porcComentarios").toString());
+            porcComent.setText(Float.toString(porcComentario));
             longitud.setText(results.get("longitud").toString());
             velocidad.setText(results.get("velocidad").toString());
             esfuerzo.setText(results.get("esfuerzo").toString());
-            fanin.setText(results.get("fanin").toString());
+            fanin.setText(Integer.toString(fanI));
             fanout.setText(results.get("fanout").toString());
            
             

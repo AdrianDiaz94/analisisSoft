@@ -38,7 +38,7 @@ public class Lector {
                 bigLine = bigLine.concat(line);
             }
 
-            String patternString = "[^\\)\\(\\{\\}\\t]+\\s([a-z][a-zA-Z0-9]*)\\s*\\(\\s*\\)\\s\\{";
+            String patternString = "[^\\)\\(\\{\\}\\t]+\\s([a-zA-Z][a-zA-Z0-9]*)\\s*\\(\\s*([^\\(\\)]*)\\)\\s*([^\\(\\)\\{\\};]*)\\s*\\{";
             Pattern pattern = Pattern.compile(patternString);
             Matcher matcher = pattern.matcher(bigLine);
 
