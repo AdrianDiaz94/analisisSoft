@@ -196,21 +196,34 @@ public class Herramienta {
     }
 
     public int getFanOut(String path, ArrayList<String> methodsNames) throws FileNotFoundException, IOException {
-        int cantidad = -1;
-        FileReader fr = new FileReader(path);
-        BufferedReader br = new BufferedReader(fr);
-        String linea;
+        
+        ArrayList<String> reservedNames;
+        ArrayList<String> fanOut = new ArrayList<String>();
+        reservedNames = new ArrayList<String>(Arrays.asList("if", "while", "for", "do", "else", "switch"));
 
-        while ((linea = br.readLine()) != null) {
-            for (int i = 0; i < methodsNames.size(); i++) {
-                if (linea.contains(methodsNames.get(i))) {
-                    cantidad++;
+        String bigLine = "";
+        FileReader fileReader = new FileReader(path);
+        try (BufferedReader bufferedReader = new BufferedReader(fileReader)) {
+            String line;
+
+            while ((line = bufferedReader.readLine()) != null) {
+                line = line.replaceAll("\n", "");
+                bigLine = bigLine.concat(line);
+            }
+
+            String patternString = "\\.([a-zA-z][a-zA-z0-9]*)\\s*\\(";
+            Pattern pattern = Pattern.compile(patternString);
+            Matcher matcher = pattern.matcher(bigLine);
+
+            while (matcher.find()) {
+                if (!reservedNames.contains(matcher.group(1))) {
+                    if(!fanOut.contains(matcher.group(1))){
+                        fanOut.add(matcher.group(1));
+                    }
                 }
             }
         }
-        fr.close();
-
-        return cantidad;
+        return fanOut.size();
     }
 
     public int getFanIn(String path, String methodName) throws FileNotFoundException, IOException {
@@ -258,8 +271,6 @@ public class Herramienta {
             totalLines++;
             if (linea.contains("//")) {
                 String[] separador = linea.split("//");
-                System.out.println(separador.length);
-                
                 if(separador.length > 1)
                     codigo++;
                 
