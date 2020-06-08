@@ -26,23 +26,23 @@ public class medico {
 				menu.ps("   :-:...............................................:-:" + "\n");
 
 				menu.ps("Digite el codigo del medico: ");
-				codigoMedico = menu.LeerCadena();
-				datomed.writeUTF(codigoMedico);
+				codigoMedico = menu.LeerCadena();//leo codigo de medico ingresada
+				datomed.writeUTF(codigoMedico);//escribo en el archivo txt el codigo
 
 				menu.ps("Digite el nombre del medico: ");
-				nombreMedico = menu.LeerCadena();
-				datomed.writeUTF(nombreMedico);
+				nombreMedico = menu.LeerCadena();//leo nombre de medico ingresada
+				datomed.writeUTF(nombreMedico);//escribo en el archivo txt el nombre
 
 				menu.ps("Digite la especializacion del medico: ");
-				especialidad = menu.LeerCadena();
-				datomed.writeUTF(especialidad);
+				especialidad = menu.LeerCadena();//leo especialidad ingresada
+				datomed.writeUTF(especialidad);//escribo en el archivo txt la especialidad ingresada
 
-				menu.ps("Desea ingresar otro medico? S/N");
+				menu.ps("Desea ingresar otro medico? S/N");//pregunta por pantalla
 				menu.ps("\n");
 
-				op = menu.LeerCadena();
+				op = menu.LeerCadena();//leo la respuesta a la pregunta ingresada
 
-			} while (op.equals("S") || op.equals("s"));
+			} while (op.equals("S") || op.equals("s"));//si no es S, salgo del while
 			datomed.close();
 		} catch (IOException ioe) {
 		}
