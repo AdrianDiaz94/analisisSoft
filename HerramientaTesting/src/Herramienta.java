@@ -1,5 +1,4 @@
 
-
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -16,8 +15,8 @@ import java.util.regex.Pattern;
 public class Herramienta {
 
     private ArrayList<String> operadores = new ArrayList<String>(Arrays.asList("||", ";", "(", "+", "&&", ">", "<", "<=", ">=", "==", "*=", "=", "+=", "-=", "++", "%", "{", "--", "/=", "%=", "^", "!"));
-    private ArrayList<String> funciones = new ArrayList<String>(Arrays.asList("for", "while","do", "if", "else"));
-    private ArrayList<String> reservadas = new ArrayList<String>(Arrays.asList("boolean", ")", "int","void" ,"String", "float", "public", "private", "}", "return", "true", "false"));
+    private ArrayList<String> funciones = new ArrayList<String>(Arrays.asList("for", "while", "do", "if", "else","try","catch"));
+    private ArrayList<String> reservadas = new ArrayList<String>(Arrays.asList("boolean", ")", "int", "void", "String", "float", "public", "private", "}", "return", "true", "false"));
 
     private int calcularOpLogicos(String codigo) {
         // con esto metodo cuento cuantos AND y OR hay
@@ -91,7 +90,12 @@ public class Herramienta {
                 linea = br.readLine();
             }
 
-            if (linea != null && !linea.contains("//")) {
+            if (linea != null) {
+                if (linea.contains("//")) {
+                    int search = linea.indexOf("//");
+                    linea = linea.substring(0, search);
+                }
+                
                 for (String operador : this.operadores) {
                     if (linea.contains(operador)) {
                         int cantidad = countStringInString(operador, linea);
@@ -143,21 +147,21 @@ public class Herramienta {
         }
         fr.close();
         int fanOut = getFanOut(path, methodsNames);
-        metOperadores.put("(", metOperadores.get("(") - 1 -fanOut);
+        metOperadores.put("(", metOperadores.get("(") - 1 - fanOut);
 
         if (metOperadores.containsKey("for")) {
             int cantidad = metOperadores.get("for");
             metOperadores.put("(", metOperadores.get("(") - cantidad);
             metOperadores.put(";", metOperadores.get(";") - cantidad * 2);
         }
-        /*
+        
         metOperadores.keySet().forEach((key) -> {
             System.out.println(key + " - " + metOperadores.get(key)); // hasta acá obtengo el N1
         });
         System.out.println("-----------------------------------------------------");
         metOperandos.keySet().forEach((key) -> {
             System.out.println(key + " - " + metOperandos.get(key)); // hasta acá obtengo el N1
-        });*/
+        });
 
         int nUno = 0;
         int nDos = 0;
@@ -196,7 +200,7 @@ public class Herramienta {
     }
 
     public int getFanOut(String path, ArrayList<String> methodsNames) throws FileNotFoundException, IOException {
-        
+
         ArrayList<String> reservedNames;
         ArrayList<String> fanOut = new ArrayList<String>();
         reservedNames = new ArrayList<String>(Arrays.asList("if", "while", "for", "do", "else", "switch"));
@@ -217,7 +221,7 @@ public class Herramienta {
 
             while (matcher.find()) {
                 if (!reservedNames.contains(matcher.group(1))) {
-                    if(!fanOut.contains(matcher.group(1))){
+                    if (!fanOut.contains(matcher.group(1))) {
                         fanOut.add(matcher.group(1));
                     }
                 }
@@ -261,7 +265,7 @@ public class Herramienta {
         int comentarios = 0;
         int vacio = 0;
         int codigo = 0;
-        
+
         FileReader fr = new FileReader(path);
         BufferedReader br = new BufferedReader(fr);
         String linea;
@@ -271,9 +275,10 @@ public class Herramienta {
             totalLines++;
             if (linea.contains("//")) {
                 String[] separador = linea.split("//");
-                if(separador.length > 1)
+                if (separador.length > 1) {
                     codigo++;
-                
+                }
+
                 comentarios++;
             } else if (linea.contains("/*")) {
                 comentarios++;
@@ -291,7 +296,7 @@ public class Herramienta {
             }
             if (linea.isEmpty()) {
                 vacio++;
-            }else if(!linea.contains("//")){
+            } else if (!linea.contains("//")) {
                 codigo++;
             }
         }
@@ -300,7 +305,7 @@ public class Herramienta {
 
         result[0] = totalLines;//lineas totales
         result[1] = comentarios;//comentarios
-        result[2] = codigo-2;//codigo -2 por apertura y cierre
+        result[2] = codigo - 2;//codigo -2 por apertura y cierre
         result[3] = vacio;//vacios
 
         return result;
@@ -335,7 +340,7 @@ public class Herramienta {
             int indiceCase = linea.indexOf("case");
             int indiceDefault = linea.indexOf("default");
             //si empiezsa con algun condicional copio la linea 
-            if (indiceIf !=-1 || indiceWhile !=-1 || (indiceElse !=-1 && indiceIf != -1) || indiceCase == 0
+            if (indiceIf != -1 || indiceWhile != -1 || (indiceElse != -1 && indiceIf != -1) || indiceCase == 0
                     || indiceDefault == 0) {
                 codigoReal = codigoReal + linea.substring(0) + "\n";
             }
