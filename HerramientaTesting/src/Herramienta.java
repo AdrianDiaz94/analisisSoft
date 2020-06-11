@@ -1,4 +1,5 @@
 
+import com.sun.org.apache.regexp.internal.RESyntaxException;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -15,8 +16,8 @@ import java.util.regex.Pattern;
 public class Herramienta {
 
     private ArrayList<String> operadores = new ArrayList<String>(Arrays.asList("||", ";", "(", "+", "&&", ">", "<", "<=", ">=", "==", "*=", "=", "+=", "-=", "++", "%", "{", "--", "/=", "%=", "^", "!"));
-    private ArrayList<String> funciones = new ArrayList<String>(Arrays.asList("for", "while", "do", "if", "else","try","catch"));
-    private ArrayList<String> reservadas = new ArrayList<String>(Arrays.asList("boolean", ")", "int", "void", "String", "float", "public", "private", "}", "return", "true", "false"));
+    private ArrayList<String> funciones = new ArrayList<String>(Arrays.asList("for", "while", "do", "if", "else", "try", "catch"));
+    private ArrayList<String> reservadas = new ArrayList<String>(Arrays.asList("boolean", ")", "null","new", "int", "void", "String", "float", "public", "private", "}", "return", "true", "false"));
 
     private int calcularOpLogicos(String codigo) {
         // con esto metodo cuento cuantos AND y OR hay
@@ -79,6 +80,7 @@ public class Herramienta {
 
         FileReader fr = new FileReader(path);
         BufferedReader br = new BufferedReader(fr);
+        String bigLine = "";
         String linea;
 
         while ((linea = br.readLine()) != null) {
@@ -91,11 +93,49 @@ public class Herramienta {
             }
 
             if (linea != null) {
+                //limpio los strings delos comentarios
                 if (linea.contains("//")) {
                     int search = linea.indexOf("//");
                     linea = linea.substring(0, search);
                 }
-                
+
+                String patternStrig = "(\\\"(\\s*.*)\\\")";
+                Pattern pattern = Pattern.compile(patternStrig);
+                Matcher matcher = pattern.matcher(linea);
+                while (matcher.find()) {
+                    String search = matcher.group(1);
+                    if (search.contains("+")) {
+                        String[] parseo = search.split("\\+");
+                        for (String parse : parseo) {
+                            linea = linea.replace(parse, "\"\"");
+                        }
+                    } else if (search.contains("||")) {
+                        String[] parseo = search.split("\\) \\|\\| [a-zA-z][a-zA-Z0-9]*\\.[a-zA-z][a-zA-Z0-9]*\\(");
+                        for (String parse : parseo) {
+                            linea = linea.replace(parse, "\"\"");
+                        }
+                    } else {
+                        linea = linea.replace(search, "\"\"");
+                    }
+                }
+                //línea limpia de cadenas
+                //BUSCO OPERANDOS
+                String patternStrigOp = "([a-z][a-zA-Z0-9]*)\\.|([a-z][a-zA-Z0-9]*)\\s*=|\\(\\s*([a-z][a-zA-Z0-9]*[^\\.])";
+                Pattern patternOp = Pattern.compile(patternStrigOp);
+                Matcher matcherOp = patternOp.matcher(linea);
+
+                while (matcherOp.find()) {
+                    if (!reservadas.contains(matcherOp.group(0))) {
+                        int cant = countStringInString(matcherOp.group(0), linea);
+                        if (metOperandos.containsKey(matcherOp.group(0))) {
+                            metOperandos.put(matcherOp.group(0), metOperandos.get(matcherOp.group(0)) + cant);
+                        } else {
+                            metOperandos.put(matcherOp.group(0), cant);
+                        }
+                    }
+                }
+
+                //BUSCO OPERADORES
                 for (String operador : this.operadores) {
                     if (linea.contains(operador)) {
                         int cantidad = countStringInString(operador, linea);
@@ -110,6 +150,7 @@ public class Herramienta {
                     }
                 }
 
+                //BUSCO FUNCIONES
                 for (String funcion : this.funciones) {
                     if (linea.contains(funcion)) {
                         if (metOperadores.containsKey(funcion)) {
@@ -122,6 +163,7 @@ public class Herramienta {
                     }
                 }
 
+                //BUSCO PALABRAS RESERVADAS
                 for (String reservada : this.reservadas) {
                     if (linea.contains(reservada)) {
                         reservada = Pattern.quote(reservada);
@@ -131,30 +173,9 @@ public class Herramienta {
                 String tabulador = Pattern.quote("\t");
                 linea = linea.replaceAll(tabulador, " ");
 
-                String[] split = linea.split(" ");
-
-                for (int i = 0; i < split.length; i++) {
-                    if (!split[i].isEmpty() && !methodsNames.contains(split[i])) {
-                        String coso = split[i];
-                        if (metOperandos.containsKey(coso)) {
-                            metOperandos.put(coso, metOperandos.get(coso) + 1);
-                        } else {
-                            metOperandos.put(coso, 1);
-                        }
-                    }
-                }
             }
         }
         fr.close();
-        int fanOut = getFanOut(path, methodsNames);
-        metOperadores.put("(", metOperadores.get("(") - 1 - fanOut);
-
-        if (metOperadores.containsKey("for")) {
-            int cantidad = metOperadores.get("for");
-            metOperadores.put("(", metOperadores.get("(") - cantidad);
-            metOperadores.put(";", metOperadores.get(";") - cantidad * 2);
-        }
-        
         metOperadores.keySet().forEach((key) -> {
             System.out.println(key + " - " + metOperadores.get(key)); // hasta acá obtengo el N1
         });
@@ -162,7 +183,7 @@ public class Herramienta {
         metOperandos.keySet().forEach((key) -> {
             System.out.println(key + " - " + metOperandos.get(key)); // hasta acá obtengo el N1
         });
-
+        
         int nUno = 0;
         int nDos = 0;
 
@@ -181,7 +202,7 @@ public class Herramienta {
         resultados.put("longitud", longitud);
         resultados.put("volumen", volumen);
         resultados.put("esfuerzo", esfuerzo);
-
+         
         return resultados;
     }
 
@@ -198,6 +219,7 @@ public class Herramienta {
         }
         return true;
     }
+
 
     public int getFanOut(String path, ArrayList<String> methodsNames) throws FileNotFoundException, IOException {
 
