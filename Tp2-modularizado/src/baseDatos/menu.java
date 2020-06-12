@@ -4,7 +4,7 @@ import java.io.InputStreamReader;
 
 public class menu {
 	
-	public static void ps(String x) {//muestra por pantalla mensajes
+	public static void ps(String x) {
 		System.out.print(x);//imprime en pantalla
 	}
 

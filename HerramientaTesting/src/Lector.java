@@ -72,7 +72,9 @@ public class Lector {
         int cantLlaves = 0;
         boolean primeraLLave = false;
         String metodo = "";
-        String patternString = "[^\\)\\(\\{\\}\\t]+\\s(" + nombreMetodo + ")\\s*\\(\\s*\\)\\s\\{";
+        //String patternString = "[^\\)\\(\\{\\}\\t]+\\s(" + nombreMetodo + ")\\s*\\(\\s*\\)\\s\\{";
+        String patternString = "[^\\)\\(\\{\\}\\t]+\\s("+nombreMetodo+")\\s*\\(\\s*([^\\(\\)]*)\\)\\s*([^\\(\\)\\{\\};]*)\\s*\\{";
+
         Pattern pattern = Pattern.compile(patternString);
 
         try {
