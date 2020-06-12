@@ -291,7 +291,8 @@ public class UserInterface extends javax.swing.JFrame {
             comentarios.setText("");
             codigo.setText("");
             String comentariosText=("");
-            
+	    recomendaciones.setText("");
+		            
             Map results = Gestor.getResults(this.path, methodSelect.getSelectedItem());
             int cc = (int) results.get("cc");
             
