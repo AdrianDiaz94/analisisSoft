@@ -361,9 +361,10 @@ public class Herramienta {
             int indiceElse = linea.indexOf("else");
             int indiceCase = linea.indexOf("case");
             int indiceDefault = linea.indexOf("default");
+            int indiceTry=linea.indexOf("try");
             //si empiezsa con algun condicional copio la linea 
             if (indiceIf != -1 || indiceWhile != -1 || (indiceElse != -1 && indiceIf != -1) || indiceCase == 0
-                    || indiceDefault == 0) {
+                    || indiceDefault == 0 || indiceTry !=-1) {
                 codigoReal = codigoReal + linea.substring(0) + "\n";
             }
 
